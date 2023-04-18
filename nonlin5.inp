@@ -1,0 +1,35 @@
+% OPUS file
+test/spectra/so20170906s0eeax.062
+
+% Original spectral file
+spec_orig/spec_orig_20170906_0125.dpt
+
+% Optimized spectral file
+spec_opti/spec_opti_20170906_0125.dpt
+
+% Parameter file
+params/params_20170906_0125.dpt
+
+% Cycle file
+cycles/cycles_20170906_0125.dpt
+
+% SIA
+2106.6
+
+% FVSI
+.0016
+
+% Max number of cycles
+50000
+
+% Initial step size
+1.0E-1
+
+% Step adjustment coefficient
+0.25
+
+% Number of tries
+100
+
+% Min step size
+1.0E-6

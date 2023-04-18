@@ -1,0 +1,40 @@
+% nonlin5 install directory
+% A trailing path delimiter required
+/opt/GGG/run_ggg2020/nonlin/nonlin5/
+
+% opus-i2s input file directory
+% A trailing path delimiter required
+/opt/GGG/run_ggg2020/nonlin/nonlin5/test/opus-i2s_in/
+
+% Max number of cycles
+50000
+
+% Initial step size
+1.0E-1
+
+% Step adjustment coefficient
+0.25
+
+% Number of tries
+100
+
+% Min step size
+1.0E-6
+
+% First date
+20170906
+
+% Last date
+20170906
+
+% Min SIA
+500
+
+% Max FVSI
+0.05
+
+% Max number of lines in parallel input files
+200
+
+% Number of parallel jobs
+2
