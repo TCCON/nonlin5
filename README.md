@@ -10,7 +10,13 @@ SOFTWARE REQUIREMENTS:
 
 REQUIREMENTS FOR SPECTRA:
 
- The program has been tested only with spectra from Sodankyla, one InGaAs-Si forward-backward scan in OPUS files.
+ - Spectra in OPUS format
+ - InGaAs/Si dual acquisition in DC mode
+ - One forward-backward scan in one file
+ - Interferogram values are positive, and they increase with increasing signal
+ - When no light enters the instrument, interferogram values should be close to zero. No significant offset in zero level
+
+ If the above conditions are not met, then the code needs modifications!
 
 INSTALLATION:
 
