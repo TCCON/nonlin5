@@ -103,3 +103,9 @@ pre-nonlin5 reads all opus-i2s input files from the directory that is given in t
 
 collate_params5 collects data from all parameter files to one file, collate_params5.out. Directory path to parameter files must be given as an argument:
  ./collate_params5 params/
+
+## After computing coefficients ##
+
+After computing the set of coefficients across several interferograms, compute a global set of coefficients by plotting the correction curves, taking the average correction curve and finding the coefficients that best fit the average curve. The software to do this part is not currently included in nonlin5. Here is an example of the method:
+
+![correction](https://github.com/TCCON/nonlin5/assets/38021331/dccc98ad-d8a2-4c95-8cb5-e027d3d8ebdb)
