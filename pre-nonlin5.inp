@@ -6,6 +6,23 @@
 % A trailing path delimiter required
 /opt/GGG/run_ggg2020/nonlin/nonlin5/test/opus-i2s_in/
 
+% Range of channels (1:slave, 2:master)
+% 1 1 (slave only)
+% 2 2 (master only)
+% 1 2 (slave and master)
+1 2
+
+% Selected channel (1:slave, 2:master)
+% 1 if range of channels is 1 1
+% 2 if range of channels is 2 2
+% 1 or 2 if range of channels is 1 2
+1
+
+% Interferogram is upside down?
+% 0 if ifg values are positive and they increase with increasing signal
+% 1 if ifg values are negative and they decrease with increasing signal
+0
+
 % Max number of cycles
 50000
 

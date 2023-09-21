@@ -17,6 +17,10 @@ PROGRAM nonlin5
 	CHARACTER(LEN = 255) :: newfile
 	CHARACTER(LEN = 255) :: paramsfile
 	CHARACTER(LEN = 255) :: cyclesfile
+	INTEGER(KIND = 4) :: chan1
+	INTEGER(KIND = 4) :: chan2
+	INTEGER(KIND = 4) :: ichan
+	INTEGER(KIND = 4) :: upside_down
 	REAL(KIND = 8) :: sia
 	REAL(KIND = 8) :: fvsi
 	INTEGER(KIND = 4) :: maxcycle
@@ -24,7 +28,7 @@ PROGRAM nonlin5
 	REAL(KIND = 8) :: stepadjcoef
 	INTEGER(KIND = 4) :: ntry
 	REAL(KIND = 8) :: minstep
-	
+
 	INTEGER(KIND = 4), PARAMETER :: mip = 2**24
 	REAL(KIND = 4), DIMENSION(mip) :: ifg
 	INTEGER(KIND = 4) :: st_ifg
@@ -125,20 +129,26 @@ PROGRAM nonlin5
 				CASE (5)
 					READ(ro, '(A)', ERR = 100, END = 100) cyclesfile
 				CASE (6)
-					READ(ro, *, ERR = 100, END = 100) sia
+					READ(ro, *, ERR = 100, END = 100) chan1, chan2
 				CASE (7)
-					READ(ro, *, ERR = 100, END = 100) fvsi	
+					READ(ro, *, ERR = 100, END = 100) ichan
 				CASE (8)
-					READ(ro, *, ERR = 100, END = 100) maxcycle
+					READ(ro, *, ERR = 100, END = 100) upside_down	
 				CASE (9)
-					READ(ro, *, ERR = 100, END = 100) initstep
+					READ(ro, *, ERR = 100, END = 100) sia
 				CASE (10)
-					READ(ro, *, ERR = 100, END = 100) stepadjcoef
+					READ(ro, *, ERR = 100, END = 100) fvsi	
 				CASE (11)
-					READ(ro, *, ERR = 100, END = 100) ntry
+					READ(ro, *, ERR = 100, END = 100) maxcycle
 				CASE (12)
+					READ(ro, *, ERR = 100, END = 100) initstep
+				CASE (13)
+					READ(ro, *, ERR = 100, END = 100) stepadjcoef
+				CASE (14)
+					READ(ro, *, ERR = 100, END = 100) ntry
+				CASE (15)
 					READ(ro, *, ERR = 100, END = 100) minstep
-					EXIT		
+					EXIT
 			END SELECT
 			par_no = par_no + 1
 		END IF
@@ -151,13 +161,18 @@ PROGRAM nonlin5
 	END IF
 	
 	! Get the interferogram
-	CALL get_ifg_opus(ifgfile, mip, nifgtot, ifg, dati2000, st_ifg)
-	
+	CALL get_ifg_opus(ifgfile, mip, chan1, chan2, ichan, nifgtot, ifg, dati2000, st_ifg)
+
 	IF (st_ifg /= 0) THEN
 		WRITE(*, '(A)') 'Error in reading from ' // TRIM(ifgfile)
 		STOP
 	END IF
-
+	
+	! If the interferogram is upside down, invert it
+	IF (upside_down /= 0) THEN
+		ifg = -1.0 * ifg
+	END IF
+	
 	! Check whether the interferogram is even
 	WRITE(*, '(A, I0)') 'IFG points: ', nifgtot
 	IF (MOD(nifgtot, 2) /= 0) THEN

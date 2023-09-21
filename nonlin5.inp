@@ -13,6 +13,23 @@ params/params_20170906_0125.dpt
 % Cycle file
 cycles/cycles_20170906_0125.dpt
 
+% Range of channels (1:slave, 2:master)
+% 1 1 (slave only)
+% 2 2 (master only)
+% 1 2 (slave and master)
+1 2
+
+% Selected channel (1:slave, 2:master)
+% 1 if range of channels is 1 1
+% 2 if range of channels is 2 2
+% 1 or 2 if range of channels is 1 2
+1
+
+% Interferogram is upside down?
+% 0 if ifg values are positive and they increase with increasing signal
+% 1 if ifg values are negative and they decrease with increasing signal
+0
+
 % SIA
 2106.6
 

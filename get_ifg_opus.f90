@@ -1,10 +1,13 @@
-SUBROUTINE get_ifg_opus(ifgfile, mip, nifgtot, ifg, dati2000, st_ifg)
+SUBROUTINE get_ifg_opus(ifgfile, mip, chan1, chan2, ichan, nifgtot, ifg, dati2000, st_ifg)
 
 	IMPLICIT NONE
 
 	! Input variables
 	CHARACTER(LEN = 255), INTENT(IN) :: ifgfile
-	INTEGER(KIND = 4), INTENT(IN) :: mip
+	INTEGER(KIND = 4), INTENT(IN) :: mip                       ! Maximum number of input points
+	INTEGER(KIND = 4), INTENT(IN) :: chan1                     ! Starting channel number to process
+	INTEGER(KIND = 4), INTENT(IN) :: chan2                     ! Ending channel number to process
+	INTEGER(KIND = 4), INTENT(IN) :: ichan                     ! Channel number (1=slave, 2=master)
 	
 	! Output variables
 	INTEGER(KIND = 4), INTENT(OUT) :: nifgtot
@@ -22,8 +25,6 @@ SUBROUTINE get_ifg_opus(ifgfile, mip, nifgtot, ifg, dati2000, st_ifg)
 	INTEGER(KIND = 4), PARAMETER :: mch = 2        ! Maximum number of data channels
 	INTEGER(KIND = 4), PARAMETER :: mi4 = 40       ! Maximum number of I*4 items in file header
 	INTEGER(KIND = 4), PARAMETER :: mr8 = 40       ! Maximum number of R*8 items in file header	
-	INTEGER(KIND = 4) :: chan1                     ! Starting channel number to process
-	INTEGER(KIND = 4) :: chan2                     ! Ending channel number to process
 	! Input/output:
 	INTEGER(KIND = 4) :: errnum                    ! Error code (0=ok, <0=fatal, >0=recoverable)
     ! Output:
@@ -41,11 +42,10 @@ SUBROUTINE get_ifg_opus(ifgfile, mip, nifgtot, ifg, dati2000, st_ifg)
 	CHARACTER(LEN = 128) :: INSstr                 ! Variable to hold instrument description
 	
 	! get_igram_data variables
-	! Input
-	INTEGER(KIND = 4) :: ichan                     ! Channel number (1=InGaAs=slave, 2=Si=master)
+	!  Input:
+	INTEGER(KIND = 4) :: iscan                     ! Scan number within a set of NSS scans
 	
 	! Other variables
-	INTEGER(KIND = 4) :: iscan                     ! Scan number within a set of NSS scans
 	INTEGER(KIND = 4) :: i
 	INTEGER(KIND = 4) :: l_ifgfile
 
@@ -54,9 +54,6 @@ SUBROUTINE get_ifg_opus(ifgfile, mip, nifgtot, ifg, dati2000, st_ifg)
 	catslice = 0
 	runno = 1
 	verbose = 0
-	chan1 = 1
-	chan2 = 2
-	ichan = 1
 	errnum = 0
 	iscan = 1
 	
@@ -74,6 +71,32 @@ SUBROUTINE get_ifg_opus(ifgfile, mip, nifgtot, ifg, dati2000, st_ifg)
 		catslice, runno, verbose, mns, msl, mip, mch, mi4, mr8, &
 		chan1, chan2, errnum, nptvec, bpdata, nss, tpx, timvec, &
 		timsli, runsta, runend, i4head, r8head, DTCstr, INSstr)
+		
+		!WRITE(*,*) 'nptvec'
+		!WRITE(*,*) nptvec
+		!WRITE(*,*) 'bpdata'
+		!WRITE(*,*) bpdata
+		!WRITE(*,*) 'nss'
+		!WRITE(*,*) nss
+		!WRITE(*,*) 'tpx'
+		!WRITE(*,*) tpx
+		!WRITE(*,*) 'timvec'
+		!WRITE(*,*) timvec
+		!WRITE(*,*) 'timsli'
+		!WRITE(*,*) timsli
+		!WRITE(*,*) 'runsta'
+		!WRITE(*,*) runsta
+		!WRITE(*,*) 'runend'
+		!WRITE(*,*) runend
+		!WRITE(*,*) 'i4head'
+		!WRITE(*,*) i4head
+		!WRITE(*,*) 'r8head'
+		!WRITE(*,*) r8head
+		!WRITE(*,*) 'DTCstr'
+		!WRITE(*,*) DTCstr
+		!WRITE(*,*) 'INSstr'
+		!WRITE(*,*) INSstr
+		!STOP
 
 	IF (errnum /= 0) THEN
 		st_ifg = 2

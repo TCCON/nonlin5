@@ -12,7 +12,9 @@ PROGRAM pre_nonlin5
 	
 	CHARACTER(LEN = 255) :: nonlin5_path
 	CHARACTER(LEN = 255) :: i2s_in_path
-	CHARACTER(LEN = 255) :: ifgfile_path
+	CHARACTER(LEN = 20) :: chans
+	CHARACTER(LEN = 20) :: ichan
+	CHARACTER(LEN = 20) :: upside_down
 	CHARACTER(LEN = 20) :: maxcycle
 	CHARACTER(LEN = 20) :: initstep
 	CHARACTER(LEN = 20) :: stepadjcoef
@@ -25,7 +27,7 @@ PROGRAM pre_nonlin5
 	INTEGER(4) :: maxlinenum
 	CHARACTER(LEN = 3) :: jobs
 	INTEGER(KIND = 4) :: l_nonlin5
-	INTEGER(KIND = 4) :: l_i2s_in	
+	INTEGER(KIND = 4) :: l_i2s_in
 	
 	CHARACTER(LEN = 14) :: run_file
 	INTEGER(KIND = 4), PARAMETER :: iou3 = 13
@@ -37,13 +39,13 @@ PROGRAM pre_nonlin5
 	INTEGER(4) :: filenum
 	CHARACTER(LEN = 6) :: filenum_str
 
-		
 	TYPE(FILE$INFO) :: info
 	INTEGER(8) :: handle
 	CHARACTER(LEN = 255) :: i2s_in_file
 	INTEGER(4) :: spec_date
 	INTEGER(4) :: l
 	INTEGER(4) :: i2s_par_no
+	CHARACTER(LEN = 255) :: ifgfile_path
 	
 	CHARACTER(LEN = 21) :: spectrum_name
 	INTEGER(4) :: year
@@ -98,26 +100,32 @@ PROGRAM pre_nonlin5
 				CASE (2)
 					READ(ro, '(A)', ERR = 100, END = 100) i2s_in_path
 				CASE (3)
-					READ(ro, '(A)', ERR = 100, END = 100) maxcycle
+					READ(ro, '(A)', ERR = 100, END = 100) chans
 				CASE (4)
-					READ(ro, '(A)', ERR = 100, END = 100) initstep
+					READ(ro, '(A)', ERR = 100, END = 100) ichan
 				CASE (5)
-					READ(ro, '(A)', ERR = 100, END = 100) stepadjcoef
+					READ(ro, '(A)', ERR = 100, END = 100) upside_down
 				CASE (6)
-					READ(ro, '(A)', ERR = 100, END = 100) ntry
+					READ(ro, '(A)', ERR = 100, END = 100) maxcycle
 				CASE (7)
-					READ(ro, '(A)', ERR = 100, END = 100) minstep
+					READ(ro, '(A)', ERR = 100, END = 100) initstep
 				CASE (8)
-					READ(ro, *, ERR = 100, END = 100) first_date
+					READ(ro, '(A)', ERR = 100, END = 100) stepadjcoef
 				CASE (9)
-					READ(ro, *, ERR = 100, END = 100) last_date
+					READ(ro, '(A)', ERR = 100, END = 100) ntry
 				CASE (10)
-					READ(ro, *, ERR = 100, END = 100) min_sia
+					READ(ro, '(A)', ERR = 100, END = 100) minstep
 				CASE (11)
-					READ(ro, *, ERR = 100, END = 100) max_fvsi
+					READ(ro, *, ERR = 100, END = 100) first_date
 				CASE (12)
-					READ(ro, *, ERR = 100, END = 100) maxlinenum
+					READ(ro, *, ERR = 100, END = 100) last_date
 				CASE (13)
+					READ(ro, *, ERR = 100, END = 100) min_sia
+				CASE (14)
+					READ(ro, *, ERR = 100, END = 100) max_fvsi
+				CASE (15)
+					READ(ro, *, ERR = 100, END = 100) maxlinenum
+				CASE (16)
 					READ(ro, '(A)', ERR = 100, END = 100) jobs
 					EXIT	
 			END SELECT
@@ -259,6 +267,9 @@ PROGRAM pre_nonlin5
 				'params/params_' // date_str // '_' // run_str // '.dpt'
 			WRITE(iou2, '(A)', ERR = 101) nonlin5_path(1:l_nonlin5) // &
 				'cycles/cycles_' // date_str // '_' // run_str // '.dpt'
+			WRITE(iou2, '(A)', ERR = 101) TRIM(chans)
+			WRITE(iou2, '(A)', ERR = 101) TRIM(ichan)
+			WRITE(iou2, '(A)', ERR = 101) TRIM(upside_down)
 			WRITE(iou2, '(F0.1)', ERR = 101) sia
 			WRITE(iou2, '(F0.4)', ERR = 101) fvsi
 			WRITE(iou2, '(A)', ERR = 101) TRIM(maxcycle)
